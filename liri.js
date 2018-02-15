@@ -170,17 +170,20 @@ function do_what_it_says() {
 			logFile.push(err);
 		}
 
+		var command="";
+		var name="";
 		//removes whitespaces from both sides of the text 
 		data = data.trim();
 		//splits the text with , separator and stores values in array
 		var dataArr = data.split(",");
-		//LIRI command first array item 
-		var command = dataArr[0];
+		//LIRI command first array item
+		command = dataArr[0];
 		//songName or movieName if given second array item
-		var name = dataArr[1];
-		//replace "" in name and concat movie or song name with + 
-		name = (name.replace('"', '').split(" ")).join("+");
-
+		if(dataArr.length > 1){
+			name = dataArr[1];
+			//replace "" in name and concat movie or song name with + 
+			name = (name.replace('"', '').split(" ")).join("+");
+		}	
 		//function call to perform LIRI command read in the text file
 		commandExecution(command, name);
 
