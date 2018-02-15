@@ -17,6 +17,7 @@ var client = new Twitter(keys.twitter);
 //array to store commands&name that needs to be written in logfile
 var logFile = [];
 
+//inquirer prompt to get user commands
 inquirer.prompt([
 {
 	type:"input",
@@ -25,13 +26,15 @@ inquirer.prompt([
 },
 {
 	type:"list",
-	message:"Choose One:  ",
+	message:"Your LIRI command:  ",
 	name:"command",
 	choices:["my-tweets","spotify-this-song","movie-this","do-what-it-says"]
 
 },
 ]).then(function(response){
 	var name="";
+	console.log((response.username).toUpperCase() + ", Data for your "+(response.command).toUpperCase()+" from LIRI! \n");
+   	//prompt ot get movie/song name only if the command choosen is spotify or movie 
 	if (response.command === "spotify-this-song" || response.command === "movie-this") 
 	{
 	      inquirer.prompt({
@@ -40,14 +43,14 @@ inquirer.prompt([
 	      message: 'Movie/Song Name:  ',
 	     }).then(function(result){
 	     	name=result.name;
-	     	console.log("\nWelcome " + response.username + "\n");
-    		commandExecution(response.command,name);
+	     	//function call
+	     	commandExecution(response.command,name);
 
 	     });
     }
     else
     {
-    	console.log("\nWelcome " + response.username + "\n");
+    	//function call 
     	commandExecution(response.command,name);
     }   
     
@@ -78,11 +81,7 @@ function commandExecution(commands, name) {
 			do_what_it_says();
 			log();
 			break;
-		default:
-			logFile[0] = "Invalid Command";
-			log();
-			console.log("Please Enter Valid Command");
-
+		
 	}
 }
 
