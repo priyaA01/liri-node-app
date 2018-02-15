@@ -78,6 +78,7 @@ function my_tweets() {
 				if (tweets[i]) {
 					console.log(tweets[i].text);
 					console.log(tweets[i].created_at);
+					console.log("____________________________");
 				}
 			}
 		}
