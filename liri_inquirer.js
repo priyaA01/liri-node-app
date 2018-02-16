@@ -18,42 +18,39 @@ var client = new Twitter(keys.twitter);
 var logFile = [];
 
 //inquirer prompt to get user commands
-inquirer.prompt([
-{
-	type:"input",
-	message:"Enter Your name: ",
-	name:"username"
-},
-{
-	type:"list",
-	message:"Your LIRI command:  ",
-	name:"command",
-	choices:["my-tweets","spotify-this-song","movie-this","do-what-it-says"]
-
-},
-]).then(function(response){
-	var name="";
-	console.log((response.username).toUpperCase() + ", Data for your "+(response.command).toUpperCase()+" from LIRI! \n");
-   	//prompt ot get movie/song name only if the command choosen is spotify or movie 
-	if (response.command === "spotify-this-song" || response.command === "movie-this") 
+inquirer.prompt([{
+		type: "input",
+		message: "Enter Your name: ",
+		name: "username"
+	},
 	{
-	      inquirer.prompt({
-	      type: 'input',
-	      name: 'name',
-	      message: 'Movie/Song Name:  ',
-	     }).then(function(result){
-	     	name=result.name;
-	     	//function call
-	     	commandExecution(response.command,name);
+		type: "list",
+		message: "Your LIRI command:  ",
+		name: "command",
+		choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"]
 
-	     });
-    }
-    else
-    {
-    	//function call 
-    	commandExecution(response.command,name);
-    }   
-    
+	},
+]).then(function (response) {
+	var name = "";
+	//prompt ot get movie/song name only if the command choosen is spotify or movie 
+	if (response.command === "spotify-this-song" || response.command === "movie-this") {
+		inquirer.prompt({
+			type: 'input',
+			name: 'name',
+			message: 'Movie/Song Name:  ',
+		}).then(function (result) {
+			name = result.name;
+			//function call
+			console.log((response.username).toUpperCase() + ", Data for your " + (response.command).toUpperCase() + " from LIRI! \n");
+			commandExecution(response.command, name);
+
+		});
+	} else {
+		console.log((response.username).toUpperCase() + ", Data for your " + (response.command).toUpperCase() + " from LIRI! \n");
+		//function call 
+		commandExecution(response.command, name);
+	}
+
 });
 
 
@@ -81,7 +78,7 @@ function commandExecution(commands, name) {
 			do_what_it_says();
 			log();
 			break;
-		
+
 	}
 }
 
@@ -98,8 +95,7 @@ function my_tweets() {
 					console.log("____________________________");
 				}
 			}
-		}
-		else{
+		} else {
 			console.log('Error occurred: ' + error);
 			logFile.push(error);
 		}
@@ -188,8 +184,8 @@ function do_what_it_says() {
 			logFile.push(err);
 		}
 
-		var command="";
-		var name="";
+		var command = "";
+		var name = "";
 		//removes whitespaces from both sides of the text 
 		data = data.trim();
 		//splits the text with , separator and stores values in array
@@ -197,11 +193,11 @@ function do_what_it_says() {
 		//LIRI command first array item
 		command = dataArr[0];
 		//songName or movieName if given second array item
-		if(dataArr.length > 1){
+		if (dataArr.length > 1) {
 			name = dataArr[1];
 			//replace "" in name and concat movie or song name with + 
 			name = (name.replace('"', '').split(" ")).join("+");
-		}	
+		}
 		//function call to perform LIRI command read in the text file
 		commandExecution(command, name);
 
