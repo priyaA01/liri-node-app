@@ -94,6 +94,9 @@ function my_tweets() {
 					console.log(tweets[i].created_at);
 					console.log("____________________________");
 				}
+				else{
+					break;
+				}
 			}
 		} else {
 			console.log('Error occurred: ' + error);
