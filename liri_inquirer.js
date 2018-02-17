@@ -93,8 +93,7 @@ function my_tweets() {
 					console.log(tweets[i].text);
 					console.log(tweets[i].created_at);
 					console.log("____________________________");
-				}
-				else{
+				} else {
 					break;
 				}
 			}
@@ -124,15 +123,17 @@ function spotify_this_song(songName) {
 		if (err) {
 			console.log('Error occurred: ' + err);
 			logFile.push(err);
+		} else {
+			console.log("Artists: " + data.albums.items[0].artists[0].name);
+			console.log("________");
+			console.log("The Song's Name: " + data.albums.items[0].name);
+			console.log("________________");
+			console.log("Preview link from Spotify: " + data.albums.href);
+			console.log("__________________________");
+			console.log("Album: " + data.albums.items[0].uri);
+			console.log("______");
 		}
-		console.log("Artists: " + data.albums.items[0].artists[0].name);
-		console.log("________");
-		console.log("The Song's Name: " + data.albums.items[1].name);
-		console.log("________________");
-		console.log("Preview link from Spotify: " + data.albums.href);
-		console.log("__________________________");
-		console.log("Album: " + data.albums.items[0].uri);
-		console.log("______");
+
 	});
 
 	//songname added to logfile to be logged
@@ -151,6 +152,10 @@ function movie_this(movieName) {
 	request("http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
 		// If the request is successful (i.e. if the response status code is 200)
 		if (!error && response.statusCode === 200) {
+			var rtRating = "N/A";
+			if (JSON.parse(body).Ratings.length > 1) {
+				rtRating = JSON.parse(body).Ratings[1].Value;
+			}
 
 			console.log("Title of the movie: " + JSON.parse(body).Title);
 			console.log("___________________");
@@ -158,7 +163,7 @@ function movie_this(movieName) {
 			console.log("_______________________ ");
 			console.log("IMDB Rating of the movie: " + JSON.parse(body).Rated);
 			console.log("_________________________");
-			console.log("Rotten Tomatoes Rating of the movie: " + JSON.parse(body).Ratings[1].Value);
+			console.log("Rotten Tomatoes Rating of the movie: " + rtRating);
 			console.log("___________________________________");
 			console.log("Country where the movie was produced: " + JSON.parse(body).Country);
 			console.log("____________________________________");
